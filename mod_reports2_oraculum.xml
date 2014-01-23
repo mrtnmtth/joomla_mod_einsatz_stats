@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="module" version="2.5.0" client="site" method="upgrade">
+    <name>Reports2 Oraculum</name>
+    <author>mttronc</author>
+    <version>0.1</version>
+    <method>upgrade</method>
+    <description>A Joomla module for the com_reports2 component that predicts the next alarm based on your reports.</description>
+    <files>
+        <filename>mod_reports2_oraculum.xml</filename>
+        <filename module="mod_reports2_oraculum">mod_reports2_oraculum.php</filename>
+        <filename>index.html</filename>
+        <filename>helper.php</filename>
+        <filename>tmpl/default.php</filename>
+        <filename>tmpl/index.html</filename>
+    </files>
+    <config>
+    </config>
+</extension>
