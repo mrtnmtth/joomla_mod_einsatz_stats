@@ -7,8 +7,8 @@ class modReports2Oraculum {
 		$avg = self::getOverallAvgTime() * 60;	// value in seconds
 		// can be NULL if MIN(date1) is 0000-00-00
 		if ($avg == 0) return false;
-		$last = self::getLatestTimestamp();	// timestamp
-		$next = strtotime($last.' + '.$avg.' minutes');	// unix timestamp in integer
+		$last = self::getLatestTimestamp();	// timestamp format: YYYY-MM-DD HH:MM:SS
+		$next = strtotime($last.' + '.$avg.' seconds');	// unix timestamp in integer
 		while ($next < time()) {
 			$next = $next + $avg;
 		}
