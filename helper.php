@@ -3,7 +3,7 @@ defined('_JEXEC') or die('Restricted Access');
 
 class modReports2Oraculum {
 
-	public function getNext() {
+	public static function getNext() {
 		$avg = self::executeQuery(self::$qMeanTime) * 60;	// value in seconds
 		// can be NULL if MIN(date1) is 0000-00-00
 		if ($avg == 0) return false;
@@ -51,10 +51,10 @@ class modReports2Oraculum {
 		return $results;
 	}
 */
-	private function executeQuery($query) {
+	private static function executeQuery($query) {
 		$db = JFactory::getDBO();
 		$db->setQuery($query);
-		$result = $db->loadResult();		
+		$result = $db->loadResult();
 		return $result;
 	}
 }
