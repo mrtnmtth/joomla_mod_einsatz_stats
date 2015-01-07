@@ -26,9 +26,9 @@ class modReports2Oraculum {
 												MAX(date1)) / (COUNT(date1)-1))
 										END
 										as mean_time
-									FROM #__reports		';
+									FROM #__eiko_einsatzberichte	';
 
-	private static $qLatestTimestamp = 'SELECT MAX(date1) FROM #__reports';
+	private static $qLatestTimestamp = 'SELECT MAX(date1) FROM #__eiko_einsatzberichte';
 
 /*	public function getNextType($next) {
 		$query = 'SELECT MAX(id) FROM #__reports_data';
