@@ -1,7 +1,7 @@
 <?php
 defined('_JEXEC') or die('Restricted Access');
 
-class modReports2Oraculum {
+class modEinsatzStats {
 
 	public static function getNext() {
 		$avg = self::executeQuery(self::$qMeanTime) * 60;	// value in seconds

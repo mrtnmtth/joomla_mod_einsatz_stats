@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="module" version="2.5.0" client="site" method="upgrade">
-    <name>Einsatzorakel</name>
+    <name>Einsatzstatistiken und -orakel</name>
     <author>mttronc</author>
     <creationDate>January 2015</creationDate>
     <license>GNU/GPL</license>
     <version>0.2</version>
     <method>upgrade</method>
-    <description>A Joomla module to predict the next alarm based of the data of the Einsatzkomponente (www.einsatzkomponente.de).</description>
+    <description>A Joomla module to visualise statistics of the Einsatzkomponente (www.einsatzkomponente.de) including the prediction of the next alarm.</description>
     <files>
-        <filename>mod_reports2_oraculum.xml</filename>
-        <filename module="mod_reports2_oraculum">mod_reports2_oraculum.php</filename>
+        <filename>mod_einsatz_stats.xml</filename>
+        <filename module="mod_einsatz_stats">mod_einsatz_stats.php</filename>
         <filename>index.html</filename>
         <filename>helper.php</filename>
         <filename>tmpl/default.php</filename>
