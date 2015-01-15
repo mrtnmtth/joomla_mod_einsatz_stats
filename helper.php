@@ -1,7 +1,7 @@
 <?php
 defined('_JEXEC') or die('Restricted Access');
 
-class modEinsatzStats {
+class modEinsatzStatsHelper {
 
 	public static function getNext() {
 		$avg = self::executeQuery(self::$qMeanTime) * 60;	// value in seconds
@@ -15,16 +15,27 @@ class modEinsatzStats {
 		return $next;
 	}
 
-	public static function getStatsByType() {
-		$year = date('Y');
-		//$year = 2013;
-		$qCountByType =
+	public static function getStatsByType($year) {
+		$latest = substr(self::executeQuery(self::$qLatestTimestamp), 0, 4);
+		if (($year > $latest) or !(ctype_digit($year)))
+			$year = $latest;
+
+		$query =
 			'SELECT data1, count(data1) AS count
 			FROM #__eiko_einsatzberichte
 			WHERE state=1 AND date1 LIKE \''.$year.'%\'
 			GROUP BY data1;';
 			//TODO: Join with einsatzarten table for colors
-		return self::executeQuery($qCountByType, 1);
+			//TODO mucho importante: Prevent SQL injection
+		return self::executeQuery($query, 1);
+	}
+
+	public static function getAjax() {
+		// get data from Ajax request
+		$input = JFactory::getApplication()->input;
+		$data = $input->get('data');
+
+		return $data;
 	}
 
 	// All the SQL queries
