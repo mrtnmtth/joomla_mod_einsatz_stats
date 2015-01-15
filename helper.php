@@ -21,11 +21,14 @@ class modEinsatzStatsHelper {
 			$year = $latest;
 
 		$query =
-			'SELECT data1, count(data1) AS count
+			'SELECT #__eiko_einsatzberichte.data1 AS label,
+				count(data1) AS value,
+				#__eiko_einsatzarten.marker AS color
 			FROM #__eiko_einsatzberichte
-			WHERE state=1 AND date1 LIKE \''.$year.'%\'
+			INNER JOIN #__eiko_einsatzarten
+			ON #__eiko_einsatzberichte.data1=#__eiko_einsatzarten.title
+			WHERE #__eiko_einsatzberichte.state=1 AND #__eiko_einsatzberichte.date1 LIKE \''.$year.'%\'
 			GROUP BY data1;';
-			//TODO: Join with einsatzarten table for colors
 			//TODO mucho importante: Prevent SQL injection
 		return self::executeQuery($query, 1);
 	}

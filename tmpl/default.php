@@ -6,16 +6,6 @@ defined('_JEXEC') or die('Restricted Access'); ?>
 <br /><br /><span style="font-style:italic;">Das Orakel übernimmt für diese Angaben keine Gewähr.</span>
 <?php endif; ?>
 
-<?php
-/* Define colors */
-$color0 = '#e74c3c';
-$color1 = '#1abc9c';
-$color2 = '#3498db';
-$color3 = '#e67e22';
-$color4 = '#e67e22';
-$color5 = '#e67e22';
-
-?>
 <?php if ($mode==1) : ?>
 <canvas id="myChart" width="175" height="175"></canvas>
 <script src="//cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.1/Chart.min.js"></script>
@@ -23,10 +13,10 @@ $color5 = '#e67e22';
 var data = [
 <?php for ($i=0; $i<count($statsByType); $i++) : ?>
     {
-        value: <?php echo $statsByType[$i]->count; ?>,
-        color:"<?php echo ${'color'.$i}; ?>",
-        highlight: "#e74c3c",
-        label: "<?php echo $statsByType[$i]->data1; ?>"
+        value: <?php echo $statsByType[$i]->value; ?>,
+        color:"<?php echo $statsByType[$i]->color; ?>",
+        highlight: "<?php echo $statsByType[$i]->color; ?>",
+        label: "<?php echo $statsByType[$i]->label; ?>"
     },
 <?php endfor; ?>
 ];
