@@ -15,6 +15,18 @@ class modEinsatzStats {
 		return $next;
 	}
 
+	public static function getStatsByType() {
+		$year = date('Y');
+		//$year = 2013;
+		$qCountByType =
+			'SELECT data1, count(data1) AS count
+			FROM #__eiko_einsatzberichte
+			WHERE state=1 AND date1 LIKE \''.$year.'%\'
+			GROUP BY data1;';
+			//TODO: Join with einsatzarten table for colors
+		return self::executeQuery($qCountByType, 1);
+	}
+
 	// All the SQL queries
 	private static $qMeanTime = '	SELECT
   										CASE
@@ -51,10 +63,13 @@ class modEinsatzStats {
 		return $results;
 	}
 */
-	private static function executeQuery($query) {
+	private static function executeQuery($query, $returnArray=0) {
 		$db = JFactory::getDBO();
 		$db->setQuery($query);
-		$result = $db->loadResult();
+		if ($returnArray)
+			$result = $db->loadObjectList();
+		else
+			$result = $db->loadResult();
 		return $result;
 	}
 }

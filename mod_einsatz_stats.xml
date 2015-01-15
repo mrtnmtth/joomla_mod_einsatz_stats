@@ -16,5 +16,13 @@
         <filename>tmpl/index.html</filename>
     </files>
     <config>
+        <fields name="params">
+            <fieldset name="basic">
+                <field name="mode" type="list" default="1" label="Betriebsart" description="Orakel oder Diagramm anzeigen">
+                    <option value="0">Orakel</option>
+                    <option value="1">Diagramm</option>
+                </field>
+            </fieldset>
+        </fields>
     </config>
 </extension>
