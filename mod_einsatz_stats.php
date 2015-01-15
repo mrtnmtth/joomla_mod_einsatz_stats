@@ -13,15 +13,19 @@ $js = <<<JS
                 request = {
                     'option' : 'com_ajax',
                     'module' : 'einsatz_stats',
-                    'data'   : '2013',
+                    'data'   : value,
                     'format' : 'raw'
                 };
             $.ajax({
                 type   : 'GET',
                 data   : request,
                 success: function (response) {
-                    //var response = parseJSON(data);
-                    //var myPieChart = new Chart(ctx).Pie(response);
+                    var data = jQuery.parseJSON(response);
+                    var ctx = $("#myChart").get(0).getContext("2d");
+                    var myPieChart = new Chart(ctx).Pie(data, {
+                        animationEasing: 'easeInOutQuad',
+                        tooltipFontSize: 9
+                    });
                 }
             });
             return false;
@@ -35,8 +39,6 @@ switch ($mode) {
         break;
 
     case 1:
-        $statsByType = modEinsatzStatsHelper::getStatsByType(date('Y'));
-
         $doc = JFactory::getDocument();
         $doc->addScriptDeclaration($js);
 

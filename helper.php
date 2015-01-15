@@ -30,7 +30,13 @@ class modEinsatzStatsHelper {
 			WHERE #__eiko_einsatzberichte.state=1 AND #__eiko_einsatzberichte.date1 LIKE \''.$year.'%\'
 			GROUP BY data1;';
 			//TODO mucho importante: Prevent SQL injection
-		return self::executeQuery($query, 1);
+		$result = self::executeQuery($query, 1);
+		foreach ($result as $i) {
+			$i->highlight = $i->color;
+			//chart.js needs values as integers
+			$i->value = intval($i->value);
+		}
+		return $result;
 	}
 
 	public static function getAjax() {
@@ -38,7 +44,7 @@ class modEinsatzStatsHelper {
 		$input = JFactory::getApplication()->input;
 		$data = $input->get('data');
 
-		return $data;
+		return json_encode(self::getStatsByType($data));
 	}
 
 	// All the SQL queries
