@@ -39,6 +39,7 @@ switch ($mode) {
         break;
 
     case 1:
+        JHtml::_('jquery.framework', false);
         $doc = JFactory::getDocument();
         $doc->addScriptDeclaration($js);
 
