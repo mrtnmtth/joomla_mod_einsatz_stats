@@ -7,6 +7,6 @@ defined('_JEXEC') or die('Restricted Access'); ?>
 <?php endif; ?>
 
 <?php if ($mode==1) : ?>
-<canvas id="myChart" width="175" height="175"></canvas>
+<canvas id="einsatzChart" width="175" height="175"></canvas>
 <script src="//cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.1/Chart.min.js"></script>
 <?php endif; ?>

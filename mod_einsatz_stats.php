@@ -21,7 +21,7 @@ $js = <<<JS
                 data   : request,
                 success: function (response) {
                     var data = jQuery.parseJSON(response);
-                    var ctx = $("#myChart").get(0).getContext("2d");
+                    var ctx = $("#einsatzChart").get(0).getContext("2d");
                     var myPieChart = new Chart(ctx).Pie(data, {
                         animationEasing: 'easeInOutQuad',
                         tooltipFontSize: 9
