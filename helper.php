@@ -21,14 +21,15 @@ class modEinsatzStatsHelper {
 			$year = $latest;
 
 		$query =
-			'SELECT #__eiko_einsatzarten.title AS label,
+			'SELECT arten.title AS label,
 				count(data1) AS value,
-				#__eiko_einsatzarten.marker AS color
-			FROM #__eiko_einsatzberichte
-			INNER JOIN #__eiko_einsatzarten
-			ON #__eiko_einsatzberichte.data1=#__eiko_einsatzarten.id
-			WHERE #__eiko_einsatzberichte.state=1 AND #__eiko_einsatzberichte.date1 LIKE \''.$year.'%\'
-			GROUP BY data1;';
+				arten.marker AS color
+			FROM #__eiko_einsatzberichte AS berichte
+			INNER JOIN #__eiko_einsatzarten AS arten
+			ON berichte.data1=arten.id
+			WHERE berichte.state=1 AND berichte.date1 LIKE \''.$year.'%\'
+			GROUP BY data1
+			ORDER BY arten.ordering;';
 			//TODO mucho importante: Prevent SQL injection
 		$result = self::executeQuery($query, 1);
 		foreach ($result as $i) {
