@@ -21,12 +21,12 @@ class modEinsatzStatsHelper {
 			$year = $latest;
 
 		$query =
-			'SELECT #__eiko_einsatzberichte.data1 AS label,
+			'SELECT #__eiko_einsatzarten.title AS label,
 				count(data1) AS value,
 				#__eiko_einsatzarten.marker AS color
 			FROM #__eiko_einsatzberichte
 			INNER JOIN #__eiko_einsatzarten
-			ON #__eiko_einsatzberichte.data1=#__eiko_einsatzarten.title
+			ON #__eiko_einsatzberichte.data1=#__eiko_einsatzarten.id
 			WHERE #__eiko_einsatzberichte.state=1 AND #__eiko_einsatzberichte.date1 LIKE \''.$year.'%\'
 			GROUP BY data1;';
 			//TODO mucho importante: Prevent SQL injection
@@ -54,7 +54,7 @@ class modEinsatzStatsHelper {
 											ELSE ROUND(
 												TIMESTAMPDIFF(
 											    MINUTE,
-    											MIN(date1), 
+    											MIN(date1),
 												MAX(date1)) / (COUNT(date1)-1))
 										END
 										as mean_time
@@ -73,7 +73,7 @@ class modEinsatzStatsHelper {
 					ELSE ROUND(
 						TIMESTAMPDIFF(
 					    MINUTE,
-    					MIN(date1), 
+    					MIN(date1),
 						MAX(date1)) / (COUNT(date1)-1))
 				END
 				as mean_time
