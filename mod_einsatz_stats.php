@@ -1,6 +1,5 @@
 <?php
 defined('_JEXEC') or die('Restricted Access');
-if(!defined('DS')) define('DS', DIRECTORY_SEPARATOR);
 
 require_once __DIR__ . '/helper.php';
 
