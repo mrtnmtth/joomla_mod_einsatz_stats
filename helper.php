@@ -20,6 +20,7 @@ class modEinsatzStatsHelper {
 		if (($year > $latest) or !(ctype_digit($year)))
 			$year = $latest;
 
+		$db = JFactory::getDbo();
 		$query =
 			'SELECT arten.title AS label,
 				count(data1) AS value,
@@ -27,10 +28,9 @@ class modEinsatzStatsHelper {
 			FROM #__eiko_einsatzberichte AS berichte
 			INNER JOIN #__eiko_einsatzarten AS arten
 			ON berichte.data1=arten.id
-			WHERE berichte.state=1 AND berichte.date1 LIKE \''.$year.'%\'
+			WHERE berichte.state=1 AND berichte.date1 LIKE '.$db->quote($year.'%').'
 			GROUP BY data1
 			ORDER BY arten.ordering;';
-			//TODO mucho importante: Prevent SQL injection
 		$result = self::executeQuery($query, 1);
 		foreach ($result as $i) {
 			$i->highlight = $i->color;
@@ -43,7 +43,8 @@ class modEinsatzStatsHelper {
 	public static function getAjax() {
 		// get data from Ajax request
 		$input = JFactory::getApplication()->input;
-		$data = $input->get('data');
+		// only allow unsigned integers
+		$data = $input->get('data', date('Y'), 'UINT');
 
 		return json_encode(self::getStatsByType($data));
 	}
