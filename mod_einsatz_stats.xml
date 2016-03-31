@@ -22,6 +22,9 @@
                     <option value="0">Orakel</option>
                     <option value="1">Diagramm</option>
                 </field>
+                <field name="spacer1" type="spacer" showon="mode:1" hr="true" />
+                <field name="label1" type="spacer" showon="mode:1" label="&lt;h4&gt;Einstellungen Diagramm&lt;/h4&gt;" />
+                <field name="pie_size" type="integer" default="175" showon="mode:1" label="Breite/Höhe" description="Breite und Höhe des Tortendiagrammes in Pixeln" first="100" last="500" step="1"/>
             </fieldset>
         </fields>
     </config>

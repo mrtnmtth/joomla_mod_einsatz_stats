@@ -4,6 +4,7 @@ defined('_JEXEC') or die('Restricted Access');
 require_once __DIR__ . '/helper.php';
 
 $mode = $params->get('mode', '1');
+$pie_size = $params->get('pie_size', '175');
 
 $js = <<<JS
     (function ($) {
