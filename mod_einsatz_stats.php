@@ -40,8 +40,8 @@ switch ($mode) {
     case 1:
         JHtml::_('jquery.framework', false);
         $doc = JFactory::getDocument();
+        $doc->addScript('https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js');
         $doc->addScriptDeclaration($js);
-
         break;
 }
 
