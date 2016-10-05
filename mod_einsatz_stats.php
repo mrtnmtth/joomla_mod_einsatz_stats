@@ -22,9 +22,23 @@ $js = <<<JS
                 success: function (response) {
                     var data = jQuery.parseJSON(response);
                     var ctx = $("#einsatzChart").get(0).getContext("2d");
-                    var myPieChart = new Chart(ctx).Pie(data, {
-                        animationEasing: 'easeInOutQuad',
-                        tooltipFontSize: 9
+                    var myPieChart = new Chart(ctx,{
+                        type: 'pie',
+                        data: data,
+                        options: {
+                            legend: {
+                                display: false
+                            },
+                            tooltips: {
+                                titleFontSize: 9,
+                                bodyFontSize: 9
+                            },
+                            animation: {
+                                duration: 2000,
+                                numSteps: 100,
+                                easing: 'easeInOutQuad'
+                            }
+                        }
                     });
                 }
             });
@@ -41,7 +55,7 @@ switch ($mode) {
     case 1:
         JHtml::_('jquery.framework', false);
         $doc = JFactory::getDocument();
-        $doc->addScript('https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js');
+        $doc->addScript('https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.min.js');
         $doc->addScriptDeclaration($js);
         break;
 }

@@ -32,12 +32,16 @@ class modEinsatzStatsHelper {
 			GROUP BY data1
 			ORDER BY arten.ordering;';
 		$result = self::executeQuery($query, 1);
+		$data = new StdClass;
+		$data->datasets[] = new StdClass;
 		foreach ($result as $i) {
-			$i->highlight = $i->color;
+			$data->labels[] = $i->label;
 			//chart.js needs values as integers
-			$i->value = intval($i->value);
+			$data->datasets[0]->data[] = intval($i->value);
+			$data->datasets[0]->backgroundColor[] = $i->color;
+			$data->datasets[0]->hoverBackgroundColor[] = $i->color;
 		}
-		return $result;
+		return $data;
 	}
 
 	public static function getAjax() {
