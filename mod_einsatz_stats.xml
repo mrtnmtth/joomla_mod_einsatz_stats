@@ -29,12 +29,6 @@
                   <option value="1">JYES</option>
                   <option value="0">JNO</option>
                 </field>
-                <field name="pie_legend_pos" type="list" default="top" showon="pie_legend:1" label="Legendenposition" description="Position der Legende zum Diagramm">
-                  <option value="top">Oben</option>
-                  <option value="left">Links</option>
-                  <option value="bottom">Unten</option>
-                  <option value="right">Rechts</option>
-                </field>
             </fieldset>
         </fields>
     </config>

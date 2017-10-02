@@ -5,8 +5,7 @@ require_once __DIR__ . '/helper.php';
 
 $mode = $params->get('mode', '1');
 $pie_size = $params->get('pie_size', '175');
-$pie_legend = $params->get('pie_legend', '1') ? 'true' : 'false';
-$pie_legend_pos = $params->get('pie_legend_pos', 'top');
+$pie_legend = $params->get('pie_legend', '1') ? '$(myPieChart.generateLegend()).insertAfter("#einsatzChart");' : '';
 
 $js = <<<JS
     (function ($) {
@@ -28,9 +27,29 @@ $js = <<<JS
                         type: 'pie',
                         data: data,
                         options: {
+                            legendCallback: function(chart) {
+                                var text = [];
+                                text.push('<ul class="' + chart.id + '-legend dl-horizontal unstyled">');
+
+                                var data = chart.data;
+                                var datasets = data.datasets;
+                                var labels = data.labels;
+
+                                if (datasets.length) {
+                                  for (var i = 0; i < datasets[0].data.length; ++i) {
+                                    text.push('<li class="text-center"><small><span class="badge" style="background-color:' + datasets[0].backgroundColor[i] + '; margin:2px;">&nbsp;</span> ');
+                                    if (labels[i]) {
+                                      text.push(labels[i]);
+                                    }
+                                    text.push('</small></li>');
+                                  }
+                                }
+
+                                text.push('</ul>');
+                            return text.join('');
+                            },
                             legend: {
-                                display: ${pie_legend},
-                                position: '${pie_legend_pos}'
+                                display: false
                             },
                             tooltips: {
                                 titleFontSize: 9,
@@ -44,11 +63,15 @@ $js = <<<JS
                             }
                         }
                     });
+                    ${pie_legend}
                 }
             });
             return false;
         });
     })(jQuery)
+JS;
+
+$js_legend = <<<JS
 JS;
 
 switch ($mode) {
