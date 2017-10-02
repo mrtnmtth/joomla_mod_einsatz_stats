@@ -5,6 +5,8 @@ require_once __DIR__ . '/helper.php';
 
 $mode = $params->get('mode', '1');
 $pie_size = $params->get('pie_size', '175');
+$pie_legend = $params->get('pie_legend', '1') ? 'true' : 'false';
+$pie_legend_pos = $params->get('pie_legend_pos', 'top');
 
 $js = <<<JS
     (function ($) {
@@ -27,7 +29,8 @@ $js = <<<JS
                         data: data,
                         options: {
                             legend: {
-                                display: false
+                                display: ${pie_legend},
+                                position: '${pie_legend_pos}'
                             },
                             tooltips: {
                                 titleFontSize: 9,

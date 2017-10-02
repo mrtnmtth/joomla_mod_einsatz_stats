@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="module" version="3.2.0" client="site" method="upgrade">
+<extension type="module" version="3.3.0" client="site" method="upgrade">
     <name>Einsatzstatistiken</name>
     <author>mttronc</author>
     <creationDate>January 2015</creationDate>
@@ -25,6 +25,16 @@
                 <field name="spacer1" type="spacer" showon="mode:1" hr="true" />
                 <field name="label1" type="spacer" showon="mode:1" label="&lt;h4&gt;Einstellungen Diagramm&lt;/h4&gt;" />
                 <field name="pie_size" type="integer" default="175" showon="mode:1" label="Breite/Höhe" description="Breite und Höhe des Tortendiagrammes in Pixeln" first="100" last="500" step="1"/>
+                <field name="pie_legend" type="radio" class="btn-group btn-group-yesno" default="1" showon="mode:1" label="Legende" description="Legende anzeigen">
+                  <option value="1">JYES</option>
+                  <option value="0">JNO</option>
+                </field>
+                <field name="pie_legend_pos" type="list" default="top" showon="pie_legend:1" label="Legendenposition" description="Position der Legende zum Diagramm">
+                  <option value="top">Oben</option>
+                  <option value="left">Links</option>
+                  <option value="bottom">Unten</option>
+                  <option value="right">Rechts</option>
+                </field>
             </fieldset>
         </fields>
     </config>
