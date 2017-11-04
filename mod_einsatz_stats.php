@@ -71,9 +71,6 @@ $js = <<<JS
     })(jQuery)
 JS;
 
-$js_legend = <<<JS
-JS;
-
 switch ($mode) {
     case 0:
         $next = modEinsatzStatsHelper::getNext();
