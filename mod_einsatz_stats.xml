@@ -2,18 +2,16 @@
 <extension type="module" version="3.3.0" client="site" method="upgrade">
     <name>Einsatzstatistiken</name>
     <author>mttronc</author>
-    <creationDate>October 2017</creationDate>
+    <creationDate>November 2017</creationDate>
     <license>GNU General Public License version 2 or later</license>
-    <version>0.4</version>
+    <version>0.5</version>
     <method>upgrade</method>
     <description>A Joomla module to visualise statistics of the Einsatzkomponente (www.einsatzkomponente.de) including the prediction of the next alarm.</description>
     <files>
         <filename>mod_einsatz_stats.xml</filename>
         <filename module="mod_einsatz_stats">mod_einsatz_stats.php</filename>
-        <filename>index.html</filename>
         <filename>helper.php</filename>
         <filename>tmpl/default.php</filename>
-        <filename>tmpl/index.html</filename>
     </files>
     <config>
         <fields name="params">
