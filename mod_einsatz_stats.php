@@ -10,8 +10,12 @@ $pie_legend = $params->get('pie_legend', '1') ? '$(myPieChart.generateLegend()).
 $js = <<<JS
     (function ($) {
         $(document).ready(function() {
-            var value = $('#year').val(),
-                request = {
+            if ($('#filter_year_chzn>a>span').text()) {
+              var value = $('#filter_year_chzn>a>span').text();
+            } else if ($('#year').val()) {
+              var value = $('#year').val();
+            }
+            var request = {
                     'option' : 'com_ajax',
                     'module' : 'einsatz_stats',
                     'data'   : value,
@@ -21,7 +25,7 @@ $js = <<<JS
                 type   : 'GET',
                 data   : request,
                 success: function (response) {
-                    var data = jQuery.parseJSON(response);
+                    var data = $.parseJSON(response);
                     var ctx = $("#einsatzChart").get(0).getContext("2d");
                     var myPieChart = new Chart(ctx,{
                         type: 'pie',
