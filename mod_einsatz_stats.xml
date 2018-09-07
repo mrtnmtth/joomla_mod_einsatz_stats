@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="module" version="3.3.0" client="site" method="upgrade">
     <name>Einsatzstatistiken</name>
-    <author>mttronc</author>
-    <creationDate>November 2017</creationDate>
+    <author>Martin Matthaei</author>
+    <creationDate>September 2018</creationDate>
     <license>GNU General Public License version 2 or later</license>
-    <version>0.5</version>
+    <version>0.6</version>
     <method>upgrade</method>
     <description>A Joomla module to visualise statistics of the Einsatzkomponente (www.einsatzkomponente.de) including the prediction of the next alarm.</description>
     <files>
@@ -31,6 +31,6 @@
         </fields>
     </config>
     <updateservers>
-      <server type="extension" name="Einsatzstatistiken">https://raw.githubusercontent.com/mttronc/joomla_mod_einsatz_stats/master/update.xml</server>
+      <server type="extension" name="Einsatzstatistiken">https://raw.githubusercontent.com/mrtnmtth/joomla_mod_einsatz_stats/master/update.xml</server>
     </updateservers>
 </extension>
