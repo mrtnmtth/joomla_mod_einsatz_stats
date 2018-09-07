@@ -68,27 +68,6 @@ class modEinsatzStatsHelper {
 
 	private static $qLatestTimestamp = 'SELECT MAX(date1) FROM #__eiko_einsatzberichte';
 
-/*	public function getNextType($next) {
-		$query = 'SELECT MAX(id) FROM #__reports_data';
-		$j = self::query($query);
-		$results = array();
-		for ($i = 0; $i < $j; $i++) {
-			$query = 'SELECT
-  				CASE
-					WHEN COUNT(date1) < 2 THEN 0
-					ELSE ROUND(
-						TIMESTAMPDIFF(
-					    MINUTE,
-    					MIN(date1),
-						MAX(date1)) / (COUNT(date1)-1))
-				END
-				as mean_time
-			FROM #__reports WHERE data1 = (SELECT title FROM #__reports_data WHERE id = '.$i.')';
-			$results[$i] = self::query($query);
-		}
-		return $results;
-	}
-*/
 	private static function executeQuery($query, $returnArray=0) {
 		$db = JFactory::getDBO();
 		$db->setQuery($query);
