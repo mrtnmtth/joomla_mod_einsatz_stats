@@ -41,7 +41,7 @@ $js = <<<JS
 
                                 if (datasets.length) {
                                   for (var i = 0; i < datasets[0].data.length; ++i) {
-                                    text.push('<li class="text-center"><small><span class="badge" style="background-color:' + datasets[0].backgroundColor[i] + '; margin:2px;">&nbsp;</span> ');
+                                    text.push('<li><small><span class="badge" style="background-color:' + datasets[0].backgroundColor[i] + '; margin:2px;">&nbsp;</span> ');
                                     if (labels[i]) {
                                       text.push(labels[i]);
                                     }
