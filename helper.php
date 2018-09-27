@@ -39,7 +39,55 @@ class modEinsatzStatsHelper {
 			//chart.js needs values as integers
 			$data->datasets[0]->data[] = intval($i->value);
 			$data->datasets[0]->backgroundColor[] = $i->color;
-			$data->datasets[0]->hoverBackgroundColor[] = $i->color;
+			$data->datasets[0]->hoverBackgroundColor[] = $i->color . 'bb';
+		}
+		return $data;
+	}
+
+	public static function getYears() {
+		$db = JFactory::getDbo();
+		$query =
+			'SELECT id, title, marker AS color
+			FROM #__eiko_einsatzarten
+			WHERE state=1
+			ORDER BY ordering;';
+		$categories = $db->setQuery($query)->loadObjectList();
+
+		$query =
+			'SELECT data1 AS id,
+				YEAR(date1) AS year,
+				count(data1) AS value
+			FROM #__eiko_einsatzberichte
+			WHERE state=1
+			GROUP BY data1, YEAR(date1)
+			ORDER BY year, id;';
+		$results = $db->setQuery($query)->loadObjectList();
+
+		$years = array();
+		/* Restructure result data by years first to be later able to see if there
+		   is no data for a certain year in a certain category */
+		foreach ($results as $r) {
+			if (!array_key_exists($r->year, $years))
+				$years[$r->year] = array();
+			$years[$r->year][$r->id] = $r->value;
+		}
+
+		$data = new StdClass;
+		$data->labels = array_keys($years);
+		foreach ($categories as $i => $cat) {
+			$data->datasets[$i] = new StdClass;
+			$data->datasets[$i]->label = $cat->title;
+			$data->datasets[$i]->backgroundColor = $cat->color . 'bb';
+			$data->datasets[$i]->borderWidth = 1;
+			$data->datasets[$i]->borderColor = $cat->color;
+			$data->datasets[$i]->hoverBackgroundColor = $cat->color;
+			$data->datasets[$i]->data = array();
+			foreach ($data->labels as $y) {
+				if (array_key_exists($cat->id, $years[$y]))
+					$data->datasets[$i]->data[] = (int) $years[$y][$cat->id];
+				else
+					$data->datasets[$i]->data[] = 0;
+			}
 		}
 		return $data;
 	}
@@ -47,10 +95,21 @@ class modEinsatzStatsHelper {
 	public static function getAjax() {
 		// get data from Ajax request
 		$input = JFactory::getApplication()->input;
-		// only allow unsigned integers
-		$data = $input->get('data', date('Y'), 'UINT');
 
-		return json_encode(self::getStatsByType($data));
+		if ($input->exists('year'))
+		{
+			// only allow unsigned integers
+			$year = $input->get('year', date('Y'), 'UINT');
+
+			return json_encode(self::getStatsByType($year));
+		}
+
+		if ($input->exists('all'))
+		{
+			return json_encode(self::getYears());
+		}
+
+		return http_response_code(400);
 	}
 
 	// All the SQL queries

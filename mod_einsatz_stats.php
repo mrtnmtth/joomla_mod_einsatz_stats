@@ -6,6 +6,7 @@ require_once __DIR__ . '/helper.php';
 $mode = $params->get('mode', '1');
 $pie_size = $params->get('pie_size', '175');
 $pie_legend = $params->get('pie_legend', '1') ? '$(myPieChart.generateLegend()).insertAfter("#einsatzChart");' : '';
+$all_stats = $params->get('all_stats', '1') == 1 ? true : false;
 
 $js = <<<JS
     (function ($) {
@@ -18,7 +19,7 @@ $js = <<<JS
             var request = {
                     'option' : 'com_ajax',
                     'module' : 'einsatz_stats',
-                    'data'   : value,
+                    'year'   : value,
                     'format' : 'raw'
                 };
             $.ajax({
@@ -69,6 +70,55 @@ $js = <<<JS
                     });
                     ${pie_legend}
                 }
+            });
+            $('#einsatzModalToggle').click(function() {
+                $('#einsatzModalChart').empty();
+                var request = {
+                    'option' : 'com_ajax',
+                    'module' : 'einsatz_stats',
+                    'all'   : '1',
+                    'format' : 'raw'
+                };
+                $.ajax({
+                    type   : 'GET',
+                    data   : request,
+                    success: function (response) {
+                        var data = $.parseJSON(response);
+                        var ctx = $('#einsatzModalChart').get(0).getContext('2d');
+                        var myBarChart = new Chart(ctx,{
+                            type: 'bar',
+                            data: data,
+                            options: {
+                                title: {
+                                  display: true,
+                                  text: 'Übersicht nach Jahren'
+                                },
+                                legend: {
+                                    display: true
+                                },
+                                tooltips: {
+                                    mode: 'index',
+                                    position: 'nearest',
+                                    multiKeyBackground: '#000',
+                                    displayColors: true
+                                },
+                                animation: {
+                                    duration: 2000,
+                                    numSteps: 100,
+                                    easing: 'easeInOutQuad'
+                                },
+                                scales: {
+                                    xAxes: [{
+                                        stacked: true
+                                    }],
+                                    yAxes: [{
+                                        stacked: true
+                                    }]
+                                }
+                            }
+                        });
+                    }
+                });
             });
             return false;
         });
