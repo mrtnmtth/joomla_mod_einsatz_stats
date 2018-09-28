@@ -1,4 +1,11 @@
 <?php
+/**
+ * @package     Joomla.Site
+ * @subpackage  mod_einsatz_stats
+ *
+ * @copyright   Copyright (C) 2014 - 2018 Martin Matthaei
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
 defined('_JEXEC') or die('Restricted Access'); ?>
 
 <?php if ($mode==0) : ?>
