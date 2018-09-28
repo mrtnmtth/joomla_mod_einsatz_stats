@@ -96,66 +96,76 @@ class ModEinsatzStatsHelper {
 
 	private static function queryReportsTimeLatest() {
 		$db = JFactory::getDbo();
-		$query = 'SELECT MAX(date1) FROM #__eiko_einsatzberichte';
+		$query = $db->getQuery(true);
+
+		$query->select('MAX(' . $db->qn('date1') . ')');
+		$query->from($db->qn('#__eiko_einsatzberichte'));
+
 		$result = $db->setQuery($query)->loadResult();
 		return $result;
 	}
 
 	private static function queryReportsTimeMean() {
 		$db = JFactory::getDbo();
-		$query =
-			'SELECT
-				CASE
-				WHEN COUNT(date1) < 2 THEN 0
-				ELSE ROUND(
-					TIMESTAMPDIFF(
-						MINUTE,
-						MIN(date1),
-					MAX(date1)) / (COUNT(date1)-1))
-				END
-			AS mean_time
-			FROM #__eiko_einsatzberichte	';
+		$query = $db->getQuery(true);
+
+		$query->select(
+			'CASE WHEN COUNT(' . $db->qn('date1') . ') < 2 THEN 0 ' .
+			'ELSE ROUND(TIMESTAMPDIFF(' .
+			'MINUTE, MIN(' . $db->qn('date1') . '), MAX(' . $db->qn('date1') . ')' .
+			') / (COUNT(' . $db->qn('date1') . ')-1)) ' .
+			'END AS ' . $db->qn('mean_time'));
+		$query->from($db->qn('#__eiko_einsatzberichte'));
+
 		$result = $db->setQuery($query)->loadResult();
 		return $result;
 	}
 
 	private static function queryReportsByTypeAndYear() {
 		$db = JFactory::getDbo();
-		$query =
-			'SELECT data1 AS id,
-				YEAR(date1) AS year,
-				count(data1) AS value
-			FROM #__eiko_einsatzberichte
-			WHERE state=1
-			GROUP BY data1, YEAR(date1)
-			ORDER BY year, id;';
+		$query = $db->getQuery(true);
+
+		$query->select($db->qn('data1', 'id'));
+		$query->select('YEAR(' . $db->qn('date1') . ') AS ' . $db->qn('year'));
+		$query->select('COUNT(' . $db->qn('data1') . ') AS ' . $db->qn('value'));
+		$query->from($db->qn('#__eiko_einsatzberichte'));
+		$query->where($db->qn('state') . ' = 1');
+		$query->group($db->qn(array('data1', 'year')));
+		$query->order($db->qn(array('year', 'id')));
+
 		$result = $db->setQuery($query)->loadObjectList();
 		return $result;
 	}
 
 	private static function queryReportsXType($year) {
 		$db = JFactory::getDbo();
-		$query =
-			'SELECT arten.title AS label,
-				count(data1) AS value,
-				arten.marker AS color
-			FROM #__eiko_einsatzberichte AS berichte
-			INNER JOIN #__eiko_einsatzarten AS arten
-			ON berichte.data1=arten.id
-			WHERE berichte.state=1 AND berichte.date1 LIKE '.$db->quote($year.'%').'
-			GROUP BY data1
-			ORDER BY arten.ordering;';
+		$query = $db->getQuery(true);
+
+		$query->select($db->qn('a.title', 'label'));
+		$query->select('COUNT(' . $db->qn('data1') . ') AS ' . $db->qn('value'));
+		$query->select($db->qn('a.marker', 'color'));
+		$query->from($db->qn('#__eiko_einsatzberichte', 'b'));
+		$query->join('INNER', $db->qn('#__eiko_einsatzarten', 'a') .
+			' ON (' . $db->qn('b.data1') . ' = ' . $db->qn('a.id') . ')');
+		$query->where($db->qn('b.state') . ' = 1 ' .
+			'AND ' . $db->qn('b.date1') . ' LIKE ' . $db->q($year.'%'));
+		$query->group($db->qn('data1'));
+		$query->order($db->qn('a.ordering'));
+
 		$result = $db->setQuery($query)->loadObjectList();
 		return $result;
 	}
 
 	private static function queryTypes() {
 		$db = JFactory::getDbo();
-		$query =
-			'SELECT id, title, marker AS color
-			FROM #__eiko_einsatzarten
-			WHERE state=1
-			ORDER BY ordering;';
+		$query = $db->getQuery(true);
+
+		$query->select($db->qn(array('id', 'title')));
+		$query->select($db->qn('marker', 'color'));
+		$query->from($db->qn('#__eiko_einsatzarten'));
+		$query->where($db->qn('state') . ' = 1');
+		$query->order($db->qn('ordering'));
+
 		$result = $db->setQuery($query)->loadObjectList();
 		return $result;
 	}
