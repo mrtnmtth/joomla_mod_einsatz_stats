@@ -71,56 +71,70 @@ $js = <<<JS
                     ${pie_legend}
                 }
             });
+
+            var data;
+            var myBarChart;
+
             $('#einsatzModalToggle').click(function() {
-                $('#einsatzModalChart').empty();
-                var request = {
-                    'option' : 'com_ajax',
-                    'module' : 'einsatz_stats',
-                    'all'   : '1',
-                    'format' : 'raw'
-                };
-                $.ajax({
-                    type   : 'GET',
-                    data   : request,
-                    success: function (response) {
-                        var data = $.parseJSON(response);
-                        var ctx = $('#einsatzModalChart').get(0).getContext('2d');
-                        var myBarChart = new Chart(ctx,{
-                            type: 'bar',
-                            data: data,
-                            options: {
-                                title: {
-                                  display: true,
-                                  text: 'Übersicht nach Jahren'
-                                },
-                                legend: {
-                                    display: true
-                                },
-                                tooltips: {
-                                    mode: 'index',
-                                    position: 'nearest',
-                                    multiKeyBackground: '#000',
-                                    displayColors: true
-                                },
-                                animation: {
-                                    duration: 2000,
-                                    numSteps: 100,
-                                    easing: 'easeInOutQuad'
-                                },
-                                scales: {
-                                    xAxes: [{
-                                        stacked: true
-                                    }],
-                                    yAxes: [{
-                                        stacked: true
-                                    }]
-                                }
-                            }
-                        });
+                if (!data) {
+                    var request = {
+                        'option' : 'com_ajax',
+                        'module' : 'einsatz_stats',
+                        'all'    : '1',
+                        'format' : 'raw'
+                    };
+                    $.ajax({
+                        type   : 'GET',
+                        data   : request,
+                        success: function (response) {
+                            data = $.parseJSON(response);
+                            displayBarChart();
+                        }
+                    });
+                } else {
+                    myBarChart.destroy();
+                    setTimeout(function(){
+                        displayBarChart();
+                    }, 100);
+                }
+            });
+
+            function displayBarChart() {
+                var ctx = $('#einsatzModalChart');
+                myBarChart = new Chart(ctx,{
+                    type: 'bar',
+                    data: data,
+                    options: {
+                        title: {
+                            display: true,
+                            text: 'Übersicht nach Jahren'
+                        },
+                        legend: {
+                            display: true
+                        },
+                        tooltips: {
+                            mode: 'index',
+                            position: 'nearest',
+                            multiKeyBackground: '#000',
+                            displayColors: true
+                        },
+                        animation: {
+                            duration: 2000,
+                            numSteps: 100,
+                            easing: 'easeInOutQuad'
+                        },
+                        scales: {
+                            xAxes: [{
+                                stacked: true
+                            }],
+                            yAxes: [{
+                                stacked: true
+                            }]
+                        }
                     }
                 });
-            });
-            return false;
+            }
+
         });
     })(jQuery)
 JS;
