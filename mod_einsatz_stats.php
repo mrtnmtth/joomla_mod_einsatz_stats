@@ -21,6 +21,8 @@ jQuery(document).ready(function($) {
         var value = $('#filter_year_chzn>a>span').text();
     } else if ($('#year').val()) {
         var value = $('#year').val();
+    } else {
+        return;
     }
     var request = {
         'option' : 'com_ajax',
