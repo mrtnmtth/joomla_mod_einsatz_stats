@@ -1,12 +1,10 @@
 jQuery(document).ready(function($) {
-    if ($('#filter_year_chzn>a>span').text()) {
-        var value = $('#filter_year_chzn>a>span').text();
-    } else if ($('#year').val()) {
-        var value = $('#year').val();
-    } else {
+    let value = getSelectedYear();
+    if (!value) {
         return;
     }
-    var request = {
+
+    let request = {
         'option' : 'com_ajax',
         'module' : 'einsatz_stats',
         'year'   : value,
@@ -16,60 +14,18 @@ jQuery(document).ready(function($) {
         type   : 'GET',
         data   : request,
         success: function (response) {
-            var data = $.parseJSON(response);
-            var ctx = $("#einsatzChart").get(0).getContext("2d");
-            var myPieChart = new Chart(ctx,{
-                type: 'pie',
-                data: data,
-                options: {
-                    legendCallback: function(chart) {
-                        var text = [];
-                        text.push('<ul class="' + chart.id + '-legend dl-horizontal unstyled">');
-
-                        var data = chart.data;
-                        var datasets = data.datasets;
-                        var labels = data.labels;
-
-                        if (datasets.length) {
-                            for (var i = 0; i < datasets[0].data.length; ++i) {
-                                text.push('<li><small><span class="badge" style="background-color:' + datasets[0].backgroundColor[i] + '; margin:2px;">&nbsp;</span> ');
-                                if (labels[i]) {
-                                    text.push(labels[i]);
-                                }
-                                text.push('</small></li>');
-                            }
-                        }
-
-                        text.push('</ul>');
-                        return text.join('');
-                    },
-                    legend: {
-                        display: false
-                    },
-                    tooltips: {
-                        titleFontSize: 9,
-                        bodyFontSize: 9,
-                        displayColors: false
-                    },
-                    animation: {
-                        duration: 2000,
-                        numSteps: 100,
-                        easing: 'easeInOutQuad'
-                    }
-                }
-            });
-            if (showLegend) {
-                addLegend(myPieChart);
-            }
+            let data = $.parseJSON(response);
+            let ctx = $("#einsatzChart").get(0).getContext("2d");
+            createPieChart(ctx, data, showLegend);
         }
     });
 
-    var data;
-    var myBarChart;
+    let barChart;
+    let barChartData;
 
     $('#einsatzModalToggle').click(function() {
-        if (!data) {
-            var request = {
+        if (!barChartData) {
+            let request = {
                 'option' : 'com_ajax',
                 'module' : 'einsatz_stats',
                 'all'    : '1',
@@ -79,55 +35,111 @@ jQuery(document).ready(function($) {
                 type   : 'GET',
                 data   : request,
                 success: function (response) {
-                    data = $.parseJSON(response);
-                    displayBarChart();
+                    barChartData = $.parseJSON(response);
+                    barChart = createBarChart(barChartData);
                 }
             });
         } else {
-            myBarChart.destroy();
+            barChart.destroy();
             setTimeout(function(){
-                displayBarChart();
+                barChart = createBarChart(barChartData);
             }, 100);
         }
     });
-
-    function displayBarChart() {
-        var ctx = $('#einsatzModalChart');
-        myBarChart = new Chart(ctx,{
-            type: 'bar',
-            data: data,
-            options: {
-                title: {
-                    display: true,
-                    text: 'Übersicht nach Jahren'
-                },
-                legend: {
-                    display: true
-                },
-                tooltips: {
-                    mode: 'index',
-                    position: 'nearest',
-                    multiKeyBackground: '#000',
-                    displayColors: true
-                },
-                animation: {
-                    duration: 2000,
-                    numSteps: 100,
-                    easing: 'easeInOutQuad'
-                },
-                scales: {
-                    xAxes: [{
-                        stacked: true
-                    }],
-                    yAxes: [{
-                        stacked: true
-                    }]
-                }
-            }
-        });
-    }
 });
 
-function addLegend(myPieChart) {
-    jQuery(myPieChart.generateLegend()).insertAfter("#einsatzChart");
+function getSelectedYear() {
+    const $ = jQuery;
+    if ($('#filter_year_chzn>a>span').text()) {
+        return $('#filter_year_chzn>a>span').text();
+    } else if ($('#year').val()) {
+        return $('#year').val();
+    }
+}
+
+function createPieChart(ctx, data, showLegend) {
+    let pieChart = new Chart(ctx,{
+        type: 'pie',
+        data: data,
+        options: {
+            legendCallback: buildLegendHtml,
+            legend: {
+                display: false
+            },
+            tooltips: {
+                titleFontSize: 9,
+                bodyFontSize: 9,
+                displayColors: false
+            },
+            animation: {
+                duration: 2000,
+                numSteps: 100,
+                easing: 'easeInOutQuad'
+            }
+        }
+    });
+
+    if (showLegend) {
+        jQuery(pieChart.generateLegend()).insertAfter("#einsatzChart");
+    }
+
+    return pieChart;
+}
+
+function buildLegendHtml (chart) {
+    let data = chart.data;
+    let datasets = data.datasets;
+    let labels = data.labels;
+    let text = [];
+
+    text.push('<ul class="' + chart.id + '-legend dl-horizontal unstyled">');
+
+    if (datasets.length) {
+        for (let i = 0; i < datasets[0].data.length; ++i) {
+            text.push('<li><small><span class="badge" style="background-color:' + datasets[0].backgroundColor[i] + '; margin:2px;">&nbsp;</span> ');
+            if (labels[i]) {
+                text.push(labels[i]);
+            }
+            text.push('</small></li>');
+        }
+    }
+
+    text.push('</ul>');
+    return text.join('');
+}
+
+function createBarChart(data) {
+    let ctx = jQuery('#einsatzModalChart');
+    return new Chart(ctx,{
+        type: 'bar',
+        data: data,
+        options: {
+            title: {
+                display: true,
+                text: 'Übersicht nach Jahren'
+            },
+            legend: {
+                display: true
+            },
+            tooltips: {
+                mode: 'index',
+                position: 'nearest',
+                multiKeyBackground: '#000',
+                displayColors: true
+            },
+            animation: {
+                duration: 2000,
+                numSteps: 100,
+                easing: 'easeInOutQuad'
+            },
+            scales: {
+                xAxes: [{
+                    stacked: true
+                }],
+                yAxes: [{
+                    stacked: true
+                }]
+            }
+        }
+    });
 }
