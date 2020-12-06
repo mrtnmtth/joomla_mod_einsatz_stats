@@ -11,7 +11,7 @@
         <filename>mod_einsatz_stats.xml</filename>
         <filename module="mod_einsatz_stats">mod_einsatz_stats.php</filename>
         <filename>helper.php</filename>
-        <filename>js/index.js</filename>
+        <filename>js/mod_einsatz_stats.js</filename>
         <filename>tmpl/default.php</filename>
     </files>
     <config>

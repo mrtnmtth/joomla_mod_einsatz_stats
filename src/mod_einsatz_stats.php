@@ -23,9 +23,8 @@ switch ($mode) {
     case 1:
         JHtml::_('jquery.framework', false);
         $doc = JFactory::getDocument();
-        $doc->addScript('https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js');
         $doc->addScriptDeclaration('const showLegend = ' . $pie_legend . ';');
-        $doc->addScript(JURI::root() . 'modules/mod_einsatz_stats/js/index.js');
+        $doc->addScript(JURI::root() . 'modules/mod_einsatz_stats/js/mod_einsatz_stats.js');
         break;
 }
 

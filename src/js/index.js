@@ -1,3 +1,5 @@
+import Chart from 'chart.js';
+
 jQuery(document).ready(function($) {
     let value = getSelectedYear();
     if (!value) {
