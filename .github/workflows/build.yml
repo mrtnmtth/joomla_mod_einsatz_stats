@@ -10,23 +10,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
-      - run: yarn install
-      - run: yarn build
-
-      - name: Fetch commit hash
-        id: vars
-        run: "echo ::set-output name=sha_short::$(git rev-parse --short \"$GITHUB_SHA\")"
-
-      - name: Package in zip file
-        run: |
-          cp src/helper.php src/mod_einsatz_stats.php src/mod_einsatz_stats.xml dist/
-          cp -r src/tmpl dist/
-          cd dist/
-          zip -r mod-einsatz-stats-${{ steps.vars.outputs.sha_short }}.zip *
+      - run: ./make.sh build
+      - run: ./make.sh package
 
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
           name: dist-package
-          path: dist/mod-einsatz-stats-${{ steps.vars.outputs.sha_short }}.zip
+          path: dist/mod-einsatz-stats-*.zip
           retention-days: 7
