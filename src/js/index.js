@@ -1,4 +1,17 @@
-import Chart from 'chart.js';
+import {
+    Chart,
+    ArcElement,
+    BarElement,
+    BarController,
+    PieController,
+    CategoryScale,
+    LinearScale,
+    Legend,
+    Tooltip
+} from 'chart.js';
+import { htmlLegendPlugin } from "./chartjs_html_legend";
+
+Chart.register(ArcElement, BarElement, BarController, PieController, CategoryScale, LinearScale, Legend, Tooltip);
 
 jQuery(document).ready(function($) {
     let value = getSelectedYear();
@@ -60,54 +73,40 @@ function getSelectedYear() {
 }
 
 function createPieChart(ctx, data, showLegend) {
-    let pieChart = new Chart(ctx,{
+    let config = {
         type: 'pie',
         data: data,
         options: {
-            legendCallback: buildLegendHtml,
-            legend: {
-                display: false
-            },
-            tooltips: {
-                titleFontSize: 9,
-                bodyFontSize: 9,
-                displayColors: false
-            },
             animation: {
                 duration: 2000,
-                numSteps: 100,
                 easing: 'easeInOutQuad'
-            }
-        }
-    });
+            },
+            plugins: {
+                legend: {
+                    display: false
+                },
+                htmlLegend: {
+                    containerId: 'einsatzChartContainer'
+                },
+                tooltip: {
+                    titleFont: {
+                        size: 9
+                    },
+                    bodyFont: {
+                        size: 9
+                    },
+                    displayColors: false
+                },
+            },
+        },
+        plugins: []
+    };
 
     if (showLegend) {
-        jQuery(pieChart.generateLegend()).insertAfter("#einsatzChart");
+        config.plugins.push(htmlLegendPlugin);
     }
 
-    return pieChart;
-}
-
-function buildLegendHtml (chart) {
-    let data = chart.data;
-    let datasets = data.datasets;
-    let labels = data.labels;
-    let text = [];
-
-    text.push('<ul class="' + chart.id + '-legend dl-horizontal unstyled">');
-
-    if (datasets.length) {
-        for (let i = 0; i < datasets[0].data.length; ++i) {
-            text.push('<li><small><span class="badge" style="background-color:' + datasets[0].backgroundColor[i] + '; margin:2px;">&nbsp;</span> ');
-            if (labels[i]) {
-                text.push(labels[i]);
-            }
-            text.push('</small></li>');
-        }
-    }
-
-    text.push('</ul>');
-    return text.join('');
+    return new Chart(ctx, config);
 }
 
 function createBarChart(data) {
@@ -120,27 +119,29 @@ function createBarChart(data) {
                 display: true,
                 text: 'Übersicht nach Jahren'
             },
-            legend: {
-                display: true
-            },
-            tooltips: {
-                mode: 'index',
-                position: 'nearest',
-                multiKeyBackground: '#000',
-                displayColors: true
-            },
+            responsive: true,
             animation: {
                 duration: 2000,
-                numSteps: 100,
                 easing: 'easeInOutQuad'
             },
             scales: {
-                xAxes: [{
+                x: {
                     stacked: true
-                }],
-                yAxes: [{
+                },
+                y: {
                     stacked: true
-                }]
+                }
+            },
+            plugins: {
+                legend: {
+                    display: true
+                },
+                tooltip: {
+                    mode: 'index',
+                    position: 'nearest',
+                    multiKeyBackground: '#000',
+                    displayColors: true
+                },
             }
         }
     });

@@ -8,8 +8,5 @@ module.exports = {
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: 'js/mod_einsatz_stats.js'
-    },
-    externals: {
-        moment: 'moment',
     }
 };

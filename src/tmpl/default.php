@@ -14,7 +14,9 @@ defined('_JEXEC') or die('Restricted Access'); ?>
 <?php endif; ?>
 
 <?php if ($mode==1) : ?>
-  <canvas id="einsatzChart" width="<?php echo $pie_size; ?>" height="<?php echo $pie_size; ?>"></canvas>
+  <div id="einsatzChartContainer">
+    <canvas id="einsatzChart" width="<?php echo $pie_size; ?>" height="<?php echo $pie_size; ?>"></canvas>
+  </div>
   <?php if ($all_stats) : ?>
     <p class="text-right">
       <small>
