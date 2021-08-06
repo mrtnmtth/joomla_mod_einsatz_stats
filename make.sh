@@ -7,8 +7,8 @@ shift
 
 
 build () {
-	yarn install
-	yarn build
+	npm install
+	npm run build
 }
 
 package () {
