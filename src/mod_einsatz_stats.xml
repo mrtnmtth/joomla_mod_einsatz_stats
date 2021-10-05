@@ -2,9 +2,9 @@
 <extension type="module" version="3.6" client="site" method="upgrade">
     <name>Einsatzstatistiken</name>
     <author>Martin Matthaei</author>
-    <creationDate>April 2020</creationDate>
+    <creationDate>October 2021</creationDate>
     <license>GNU General Public License version 2 or later</license>
-    <version>0.9</version>
+    <version>0.10</version>
     <method>upgrade</method>
     <description>A Joomla module to visualise statistics of the Einsatzkomponente (www.einsatzkomponente.de) including the prediction of the next alarm.</description>
     <files>
