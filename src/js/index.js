@@ -120,10 +120,7 @@ function createBarChart(data) {
                 text: 'Übersicht nach Jahren'
             },
             responsive: true,
-            animation: {
-                duration: 2000,
-                easing: 'easeInOutQuad'
-            },
+            animation: false,
             scales: {
                 x: {
                     stacked: true
