@@ -38,7 +38,7 @@ jQuery(document).ready(function($) {
     let barChart;
     let barChartData;
 
-    $('#einsatzModalToggle').click(function() {
+    $('#einsatzModalToggle').show().click(function() {
         if (!barChartData) {
             let request = {
                 'option' : 'com_ajax',

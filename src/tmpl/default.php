@@ -20,7 +20,9 @@ defined('_JEXEC') or die('Restricted Access'); ?>
   <?php if ($all_stats) : ?>
     <p class="text-right">
       <small>
-        <a id="einsatzModalToggle" href="#einsatzModal" data-toggle="modal"><i class="icon-signal"></i> Gesamtstatistik</a>
+        <a id="einsatzModalToggle" href="#einsatzModal" data-toggle="modal" style="display: none">
+            <i class="icon-signal"></i> Gesamtstatistik
+        </a>
       </small>
     </p>
     <?php echo JHtmlBootstrap::renderModal('einsatzModal', array('title' => $module->title, 'bodyHeight' => '80', 'modalWidth' => '60'), '<canvas id="einsatzModalChart"></canvas>'); ?>
