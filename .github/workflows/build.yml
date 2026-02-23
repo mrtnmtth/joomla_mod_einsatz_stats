@@ -21,7 +21,7 @@ jobs:
       - run: ./make.sh package ${{ steps.vars.outputs.sha_short }}
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: dist-package
           path: dist/mod-einsatz-stats-*.zip
